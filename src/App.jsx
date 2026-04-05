@@ -3,22 +3,45 @@ import './App.css'
 import AddContact from './componenets/AddContact'
 import Header from './componenets/header'
 import ContactCard from './componenets/ContactCard'
+import { v4 as uuid } from 'uuid'
+
 
 function App() {
-  const [contact,setContact] = useState([])
+
+  //retriving data from local storage
+    const [contacts,setContacts] = useState(()=>{
+    const data = localStorage.getItem("contact")
+    return data ? JSON.parse(data): [] 
+  })
 
 
-  const contactRec = (names,emails) =>{
-    setContact([...contact,{id:Date.now(),name:names,email:emails}])
+  //deleting contact function
+  function contactDelete(id){
+    if(id){
+      const Newlist = contacts.filter(items => items.id !=id)
+      setContacts(Newlist)
+    }
   }
 
+  //adding data to state
+  const contactRec = (names,emails) =>{
+    setContacts([...contacts,{id:uuid(),name:names,email:emails}])
+  }
+  
+  
+  //saving data to localstroage
+  useEffect(()=>{
+    localStorage.setItem("contact",JSON.stringify(contacts))
+  },[contacts])  
 
+
+  
 
   return (
     <>
     <Header></Header>
     <AddContact contactRec={contactRec}></AddContact>
-    <ContactCard  contacts = {contact}  ></ContactCard>
+    <ContactCard  contacts = {contacts} contactDelete={contactDelete}  ></ContactCard>
     </>
   )
 }
