@@ -24,8 +24,8 @@ function App() {
   }
 
   //adding data to state
-  const contactRec = (names,emails) =>{
-    setContacts([...contacts,{id:uuid(),name:names,email:emails}])
+  const contactRec = (contact) =>{
+    setContacts([...contacts,{...contact,id:uuid()}])
   }
   
   

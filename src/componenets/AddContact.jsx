@@ -3,13 +3,20 @@ import { useState } from "react"
 
 const AddContact = ({contactRec}) => {
 
-    const [mail,setMail] = useState("")
-    const [name,setName] = useState("")
+
+    const [contact,setContact] = useState({
+        name:"",
+        email:""
+    })
 
     function handle(){
-        setName("")
-        setMail("")
-        contactRec(name,mail)
+        if(contact.name === "" || contact.email === ""){
+        alert("all data is manadtory")
+        }else{
+        setContact({name:"", email:""})
+        contactRec(contact)
+        }
+
     }
 
  
@@ -18,8 +25,8 @@ const AddContact = ({contactRec}) => {
         <div className="mainui">
             <h3>Add contact</h3>
             <form onSubmit={(e)=>e.preventDefault()}>
-                <input type="text" placeholder="name"  value={name} onChange={(e)=>setName(e.target.value)}/>
-                <input type="email" placeholder="email"  value={mail} onChange={(e)=>setMail(e.target.value)}/>
+                <input type="text" placeholder="name"  value={contact.name} onChange={(e)=>setContact( {...contact,name:e.target.value})}/>
+                <input type="email" placeholder="email"  value={contact.email} onChange={(e)=> setContact({...contact,email:e.target.value})} />
                 <button onClick={handle} >Add</button>
             </form>
         </div>
