@@ -6,6 +6,7 @@ import ContactCard from './componenets/ContactCard'
 import { v4 as uuid } from 'uuid'
 import { Routes,Route } from 'react-router-dom'
 import ContactDetails from './componenets/ContactDetails'
+import DeleteContact from './componenets/DeleteContact'
 
 
 function App() {
@@ -43,8 +44,9 @@ function App() {
     <>
     <Header></Header>
     <Routes>
-    <Route path='/' element={<ContactCard contacts = {contacts} contactDelete={contactDelete} ></ContactCard>} ></Route>
+    <Route path='/' element={<ContactCard contacts = {contacts}  ></ContactCard>} ></Route>
     <Route path='/add' element={<AddContact contactRec={contactRec} ></AddContact>}> </Route>
+    <Route path='/contact/delete/:id' element={<DeleteContact contactDelete={contactDelete} ></DeleteContact>} />
     <Route path='/contact/:id' element={<ContactDetails contacts={contacts} />} />
     </Routes>
     </>
