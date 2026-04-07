@@ -1,4 +1,6 @@
 import avatar from "../images/avatar.jpg"
+import { Link } from "react-router-dom"
+import AddContact from "./AddContact"
 
 const ContactCard = ({contacts,contactDelete}) => {
 
@@ -13,9 +15,10 @@ const ContactCard = ({contacts,contactDelete}) => {
         </li>)
         
   return (
-    <div>
+    <div><Link to="/add">
+        <button>Add contact</button>
+        </Link>
       <ol>
-        
         {listitems}
       </ol>
     </div>

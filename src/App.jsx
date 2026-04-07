@@ -4,6 +4,7 @@ import AddContact from './componenets/AddContact'
 import Header from './componenets/header'
 import ContactCard from './componenets/ContactCard'
 import { v4 as uuid } from 'uuid'
+import { Routes,Route } from 'react-router-dom'
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
   //deleting contact function
   function contactDelete(id){
     if(id){
-      const Newlist = contacts.filter(items => items.id !=id)
+      const Newlist = contacts.filter(items => items.id !==id)
       setContacts(Newlist)
     }
   }
@@ -40,10 +41,12 @@ function App() {
   return (
     <>
     <Header></Header>
-    <AddContact contactRec={contactRec}></AddContact>
-    <ContactCard  contacts = {contacts} contactDelete={contactDelete}  ></ContactCard>
+    <Routes>
+    <Route path='/' element={<ContactCard contacts = {contacts} contactDelete={contactDelete} ></ContactCard>} ></Route>
+    <Route path='/add' element={<AddContact contactRec={contactRec} ></AddContact>}> </Route>
+    </Routes>
     </>
   )
 }
 
-export default App
+export default App 
