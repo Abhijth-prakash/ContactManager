@@ -7,38 +7,45 @@ import { v4 as uuid } from 'uuid'
 import { Routes,Route } from 'react-router-dom'
 import ContactDetails from './componenets/ContactDetails'
 import DeleteContact from './componenets/DeleteContact'
+import api from './api/contactApi'
 
 
 function App() {
 
-  //retriving data from local storage
-    const [contacts,setContacts] = useState(()=>{
-    const data = localStorage.getItem("contact")
-    return data ? JSON.parse(data): [] 
-  })
+  // intialsing state
+    const [contacts,setContacts] = useState([])
+  
+  // retreving data from server
+  useEffect(() => {
+  async function fetchContacts() {
+    const contact = await api.get("/contacts")
+    setContacts(contact.data)
+  }
+  fetchContacts()
+  }, [])
+
 
 
   //deleting contact function
-  function contactDelete(id){
+  async function contactDelete(id){
     if(id){
       const Newlist = contacts.filter(items => items.id !==id)
+      const request = await api.delete(`/contacts/${id}`)
       setContacts(Newlist)
     }
   }
 
-  //adding data to state
-  const contactRec = (contact) =>{
-    setContacts([...contacts,{...contact,id:uuid()}])
+  //adding data to state && saving to jsonserver
+  const contactRec = async (contact) =>{
+    const newContact = {
+      id:uuid(),
+      ...contact
+    }
+    const request = await api.post("/contacts",newContact)
+    setContacts([...contacts,newContact])
   }
   
-  
-  //saving data to localstroage
-  useEffect(()=>{
-    localStorage.setItem("contact",JSON.stringify(contacts))
-  },[contacts])  
 
-
-  
 
   return (
     <>
