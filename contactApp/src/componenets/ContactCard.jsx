@@ -11,6 +11,9 @@ const ContactCard = ({contacts}) => {
         <Link to={{pathname:`/contact/delete/${items.id}`}}>
         <button >Del</button>
         </Link>
+        <Link to={{pathname:`/contact/edit/${items.id}`}}>
+        <button >Edit</button>
+        </Link>
         </li>)
         
   return (

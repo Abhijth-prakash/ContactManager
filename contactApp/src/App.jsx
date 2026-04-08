@@ -8,6 +8,7 @@ import { Routes,Route } from 'react-router-dom'
 import ContactDetails from './componenets/ContactDetails'
 import DeleteContact from './componenets/DeleteContact'
 import api from './api/contactApi'
+import EditContact from './componenets/EditContact'
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
     <Route path='/' element={<ContactCard contacts = {contacts}  ></ContactCard>} ></Route>
     <Route path='/add' element={<AddContact contactRec={contactRec} ></AddContact>}> </Route>
     <Route path='/contact/delete/:id' element={<DeleteContact contactDelete={contactDelete} ></DeleteContact>} />
+    <Route path='/contact/edit/:id' element={<EditContact contacts={contacts} ></EditContact>} />
     <Route path='/contact/:id' element={<ContactDetails contacts={contacts} />} />
     </Routes>
     </>
