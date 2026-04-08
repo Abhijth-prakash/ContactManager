@@ -1,9 +1,18 @@
+import {  useState } from "react"
 import avatar from "../images/avatar.jpg"
 import { Link } from "react-router-dom"
 
 const ContactCard = ({contacts}) => {
 
-    const listitems = contacts.map(items=> <li key={items.id}>
+    const [input,setInput] = useState("")
+
+    const filteredContacts = contacts.filter(item =>
+      item.name.toLowerCase().includes(input.toLowerCase()) ||
+      item.email.toLowerCase().includes(input.toLowerCase()))
+
+
+
+    const listitems = filteredContacts.map(items =>  <li key={items.id}>
         <img src={avatar} style={{width:"60px"}} alt="avtar" />
          <Link to={{pathname:`/contact/${items.id}`,state:{contacts}}}>
         {items.name} {items.email}
@@ -15,9 +24,14 @@ const ContactCard = ({contacts}) => {
         <button >Edit</button>
         </Link>
         </li>)
+
         
   return (
-    <div><Link to="/add">
+    <div>
+    
+        <input type="text" value={input} onChange={(e)=>setInput(e.target.value)} />
+
+      <Link to="/add">
         <button>Add contact</button>
         </Link>
       <ol>
