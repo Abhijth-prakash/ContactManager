@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import './App.css'
 import AddContact from './componenets/AddContact'
 import Header from './componenets/header'
 import ContactCard from './componenets/ContactCard'

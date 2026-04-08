@@ -1,11 +1,11 @@
-
 const Header = () => {
   return (
-    <div>
-        <div className='container'>
-            <h1>Contact Manger</h1>
-        </div>
-      
+    <div className="bg-blue-500 shadow-sm">
+      <div className="px-4 py-4 flex justify-start">
+        <h1 className="text-white text-xl font-semibold text-left">
+          Contact Manager
+        </h1>
+      </div>
     </div>
   )
 }
