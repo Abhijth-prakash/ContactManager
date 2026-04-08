@@ -45,6 +45,18 @@ function App() {
     const request = await api.post("/contacts",newContact)
     setContacts([...contacts,newContact])
   }
+
+  //adding updated data to state && saving to jsonserver
+const updatingContact = async (data, id) => {
+  if (data) {
+    const updatedContact = { id, ...data }
+    await api.put(`/contacts/${id}`, updatedContact)
+    const newContact = contacts.map(items =>
+      items.id == id ? updatedContact : items
+    )
+    setContacts(newContact)
+  }
+}
   
 
 
@@ -55,8 +67,8 @@ function App() {
     <Route path='/' element={<ContactCard contacts = {contacts}  ></ContactCard>} ></Route>
     <Route path='/add' element={<AddContact contactRec={contactRec} ></AddContact>}> </Route>
     <Route path='/contact/delete/:id' element={<DeleteContact contactDelete={contactDelete} ></DeleteContact>} />
-    <Route path='/contact/edit/:id' element={<EditContact contacts={contacts} ></EditContact>} />
-    <Route path='/contact/:id' element={<ContactDetails contacts={contacts} />} />
+    <Route path='/contact/edit/:id' element={<EditContact contacts={contacts} updatingContact = {updatingContact} ></EditContact>} />
+    <Route path='/contact/:id' element={<ContactDetails contacts={contacts}  />} />
     </Routes>
     </>
   )
