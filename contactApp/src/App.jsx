@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react'
-import AddContact from './componenets/AddContact'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import Header from './componenets/header'
-import ContactCard from './componenets/ContactCard'
 import { v4 as uuid } from 'uuid'
-import { Routes,Route } from 'react-router-dom'
-import ContactDetails from './componenets/ContactDetails'
-import DeleteContact from './componenets/DeleteContact'
+import { Routes, Route } from 'react-router-dom'
 import api from './api/contactApi'
-import EditContact from './componenets/EditContact'
 import ErrorBoundary from './ErrorBoundries/ErrorBoundries'
 
+// components
+const ContactCard = lazy(() => import('./componenets/ContactCard'))
+const AddContact = lazy(() => import('./componenets/AddContact'))
+const DeleteContact = lazy(() => import('./componenets/DeleteContact'))
+const EditContact = lazy(() => import('./componenets/EditContact'))
+const ContactDetails = lazy(() => import('./componenets/ContactDetails'))
 
 function App() {
 
@@ -48,7 +49,7 @@ async function contactDelete(id) {
       ...contact
     }
     const request = await api.post("/contacts",newContact)
-    setContacts([...contacts,newContact])
+    setContacts(prev => [...prev, newContact])
   }
 
   //adding updated data to state && saving to jsonserver
@@ -67,7 +68,8 @@ const updatingContact = async (data, id) => {
 
   return (
     <>
-    <Header></Header>
+    <Header />
+    <Suspense fallback={<h2 className="text-center mt-10">Loading...</h2>}>
     <Routes>
     <Route path='/' element={ <ErrorBoundary> <ContactCard contacts = {contacts}  ></ContactCard> </ErrorBoundary>} ></Route>
     <Route path='/add' element={ <ErrorBoundary> <AddContact contactRec={contactRec} contactList = {contacts} ></AddContact> </ErrorBoundary> }> </Route>
@@ -75,6 +77,7 @@ const updatingContact = async (data, id) => {
     <Route path='/contact/edit/:id' element={<ErrorBoundary> <EditContact contacts={contacts} updatingContact = {updatingContact} ></EditContact> </ErrorBoundary>} />
     <Route path='/contact/:id' element={<ErrorBoundary> <ContactDetails contacts={contacts}  /> </ErrorBoundary>} />
     </Routes>
+    </Suspense>
     </>
   )
 }
