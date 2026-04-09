@@ -1,10 +1,22 @@
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
+import {z} from 'zod'
+import {zodResolver} from '@hookform/resolvers/zod'
+
+
+    const registerSchema = z.object({
+      name:z.string().min(1,{message:"name is required"}),
+      email:z.string().min(1,{message:"email is required"}).email({message:"invalid email"})
+    })
 
 const AddContact = ({ contactRec }) => {
 
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit,formState } = useForm({
+      resolver:zodResolver(registerSchema)
+    })
     const navigate = useNavigate()
+    const { errors } = formState
+
 
     function dataHandling(contact){
         contactRec(contact)
@@ -24,6 +36,7 @@ const AddContact = ({ contactRec }) => {
           placeholder="Name"
           className="w-full p-3 border border-gray-200 rounded-xl outline-none focus:border-blue-400"
         />
+        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
 
         <input
           type="email"
@@ -31,6 +44,7 @@ const AddContact = ({ contactRec }) => {
           {...register("email")}
           className="w-full p-3 border border-gray-200 rounded-xl outline-none focus:border-blue-400"
         />
+        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
 
         <button
           type="submit"
