@@ -27,13 +27,18 @@ function App() {
 
 
   //deleting contact function
-  async function contactDelete(id){
-    if(id){
-      const Newlist = contacts.filter(items => items.id !==id)
-      const request = await api.delete(`/contacts/${id}`)
-      setContacts(Newlist)
+async function contactDelete(id) {
+  if (id) {
+    const previous = contacts 
+    setContacts(prev => prev.filter(item => item.id !== id))  
+    try {
+      await api.delete(`/contacts/${id}`)
+    } catch (error) {
+      setContacts(previous)  
+      console.error("Delete failed", error)
     }
   }
+}
 
   //adding data to state && saving to jsonserver
   const contactRec = async (contact) =>{
@@ -64,7 +69,7 @@ const updatingContact = async (data, id) => {
     <Header></Header>
     <Routes>
     <Route path='/' element={<ContactCard contacts = {contacts}  ></ContactCard>} ></Route>
-    <Route path='/add' element={<AddContact contactRec={contactRec} ></AddContact>}> </Route>
+    <Route path='/add' element={<AddContact contactRec={contactRec} contactList = {contacts} ></AddContact>}> </Route>
     <Route path='/contact/delete/:id' element={<DeleteContact contactDelete={contactDelete} ></DeleteContact>} />
     <Route path='/contact/edit/:id' element={<EditContact contacts={contacts} updatingContact = {updatingContact} ></EditContact>} />
     <Route path='/contact/:id' element={<ContactDetails contacts={contacts}  />} />

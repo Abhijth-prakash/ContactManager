@@ -9,20 +9,32 @@ import {zodResolver} from '@hookform/resolvers/zod'
       email:z.string().min(1,{message:"email is required"}).email({message:"invalid email"})
     })
 
-const AddContact = ({ contactRec }) => {
+const AddContact = ({ contactRec,contactList }) => {
 
-    const { register, handleSubmit,formState } = useForm({
+    const { register, handleSubmit,formState,setError } = useForm({
       resolver:zodResolver(registerSchema)
     })
     const navigate = useNavigate()
     const { errors } = formState
 
 
-    function dataHandling(contact){
-        contactRec(contact)
-        navigate('/')
-    }
+function dataHandling(contact) {
+  const duplicate = contactList.find(
+    item => item.name === contact.name || item.email === contact.email
+  )
 
+  if (duplicate) {
+    if (duplicate.name === contact.name) {
+      setError("name", { message: "Name is already taken" })
+    }
+    if (duplicate.email === contact.email) {
+      setError("email", { message: "Email is already taken" })
+    }
+  } else {
+    contactRec(contact)
+    navigate('/')
+  }
+}
 
   return (
     <div className="max-w-md mx-auto mt-8 px-4">
