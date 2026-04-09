@@ -20,15 +20,12 @@ const AddContact = ({ contactRec,contactList }) => {
 
 function dataHandling(contact) {
   const duplicate = contactList.find(
-    item => item.name === contact.name || item.email === contact.email
+    item =>  item.email === contact.email
   )
 
   if (duplicate) {
-    if (duplicate.name === contact.name) {
-      setError("name", { message: "Name is already taken" })
-    }
     if (duplicate.email === contact.email) {
-      setError("email", { message: "Email is already taken" })
+      setError("email", { message: "Email is already added" })
     }
   } else {
     contactRec(contact)

@@ -7,7 +7,7 @@ const EditContact = ({ contacts, updatingContact }) => {
   const navigate = useNavigate()
   const contact = contacts.find(items => items.id == id)
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState,setError } = useForm({
     defaultValues: {
       name: contact?.name,
       email: contact?.email
@@ -17,9 +17,16 @@ const EditContact = ({ contacts, updatingContact }) => {
   const { errors } = formState
 
   const updation = (data) => {
-    console.log("edit form data is", data)
+    const duplicate = contacts.find(items=> items.email === data.email)
+    if(duplicate){
+      if(duplicate.email === data.email){
+       setError("email", { message: "Email is already added" })
+      }
+    }else{
     updatingContact(data, id)
     navigate('/')
+    }
+
   }
 
   return (
