@@ -8,6 +8,7 @@ import ContactDetails from './componenets/ContactDetails'
 import DeleteContact from './componenets/DeleteContact'
 import api from './api/contactApi'
 import EditContact from './componenets/EditContact'
+import ErrorBoundary from './ErrorBoundries/ErrorBoundries'
 
 
 function App() {
@@ -68,11 +69,11 @@ const updatingContact = async (data, id) => {
     <>
     <Header></Header>
     <Routes>
-    <Route path='/' element={<ContactCard contacts = {contacts}  ></ContactCard>} ></Route>
-    <Route path='/add' element={<AddContact contactRec={contactRec} contactList = {contacts} ></AddContact>}> </Route>
-    <Route path='/contact/delete/:id' element={<DeleteContact contactDelete={contactDelete} ></DeleteContact>} />
-    <Route path='/contact/edit/:id' element={<EditContact contacts={contacts} updatingContact = {updatingContact} ></EditContact>} />
-    <Route path='/contact/:id' element={<ContactDetails contacts={contacts}  />} />
+    <Route path='/' element={ <ErrorBoundary> <ContactCard contacts = {contacts}  ></ContactCard> </ErrorBoundary>} ></Route>
+    <Route path='/add' element={ <ErrorBoundary> <AddContact contactRec={contactRec} contactList = {contacts} ></AddContact> </ErrorBoundary> }> </Route>
+    <Route path='/contact/delete/:id' element={<ErrorBoundary> <DeleteContact contactDelete={contactDelete} ></DeleteContact> </ErrorBoundary> } />
+    <Route path='/contact/edit/:id' element={<ErrorBoundary> <EditContact contacts={contacts} updatingContact = {updatingContact} ></EditContact> </ErrorBoundary>} />
+    <Route path='/contact/:id' element={<ErrorBoundary> <ContactDetails contacts={contacts}  /> </ErrorBoundary>} />
     </Routes>
     </>
   )
