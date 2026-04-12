@@ -7,10 +7,12 @@ const ContactCard = ({contacts}) => {
 
     const [input,setInput] = useState("")
 
+    //filtering items for search
     const filteredContacts = contacts.filter(item =>
       item.name.toLowerCase().includes(input.toLowerCase()) ||
       item.email.toLowerCase().includes(input.toLowerCase()))
 
+    //listing items
     const listitems = filteredContacts.map(items => (
       <li key={items.id} className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl shadow-sm">
         <img src={avatar} className="w-12 h-12 rounded-full object-cover" alt="avatar" />
@@ -47,9 +49,13 @@ const ContactCard = ({contacts}) => {
         <button className="w-full bg-blue-500 text-white py-2 rounded-xl mb-4 hover:bg-blue-600">+ Add Contact</button>
       </Link>
 
-      <ol className="flex flex-col gap-3">
-        {listitems}
-      </ol>
+    <ol className="flex flex-col gap-3">
+  {listitems.length > 0 ? (
+    listitems
+  ) : (
+    <p className="text-center text-gray-500">No contacts found</p>
+  )}
+</ol>
     </div>
   )
 }
