@@ -21,8 +21,13 @@ function App() {
   // retreving data from server
   useEffect(() => {
   async function fetchContacts() {
-    const contact = await api.get("/contacts")
+    try{
+        const contact = await api.get("/contacts")
     setContacts(contact.data)
+    }catch(error){
+      console.log(error)
+    }
+
   }
   fetchContacts()
   }, [])
@@ -45,17 +50,23 @@ async function contactDelete(id) {
 
   //adding data to state && saving to jsonserver
   const contactRec = async (contact) =>{
-    const newContact = {
+    try{
+        const newContact = {
       id:uuid(),
       ...contact
     }
     const request = await api.post("/contacts",newContact)
-    setContacts(prev => [...prev, newContact])
+    setContacts(prev => [...prev, request.data])
+    }catch(error){
+      console.log(error)
+    }
+
   }
 
   //adding updated data to state && saving to jsonserver
 const updatingContact = async (data, id) => {
-  if (data) {
+  try{
+      if (data) {
     const updatedContact = { id, ...data }
     await api.put(`/contacts/${id}`, updatedContact)
     const newContact = contacts.map(items =>
@@ -63,6 +74,10 @@ const updatingContact = async (data, id) => {
     )
     setContacts(newContact)
   }
+  }catch(error){
+    console.log(error)
+  }
+
 }
   
 
