@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { Routes, Route } from 'react-router-dom'
 import api from './api/contactApi'
 import ErrorBoundary from './ErrorBoundries/ErrorBoundries'
+import NotFound from './componenets/NotFound'
 
 // components
 const ContactCard = lazy(() => import('./componenets/ContactCard'))
@@ -76,6 +77,7 @@ const updatingContact = async (data, id) => {
     <Route path='/contact/delete/:id' element={<ErrorBoundary> <DeleteContact contactDelete={contactDelete} ></DeleteContact> </ErrorBoundary> } />
     <Route path='/contact/edit/:id' element={<ErrorBoundary> <EditContact contacts={contacts} updatingContact = {updatingContact} ></EditContact> </ErrorBoundary>} />
     <Route path='/contact/:id' element={<ErrorBoundary> <ContactDetails contacts={contacts}  /> </ErrorBoundary>} />
+    <Route path='*' element={<NotFound></NotFound>} />
     </Routes>
     </Suspense>
     </>
